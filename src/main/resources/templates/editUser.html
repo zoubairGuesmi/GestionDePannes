@@ -18,20 +18,31 @@
     <div class="row col-md-8 offset-md-2">
         <div class="card">
             <div class="card-header">
-                <h2 class="text-center">Registration</h2>
+                <h2 class="text-center">Modifier User</h2>
             </div>
             <div th:if="${param.success}">
                 <div class="alert alert-info">
-                    You have successfully registered our app!
+                    You have successfully updated the current user
                 </div>
             </div>
             <div class="card-body">
                 <form
                         method="post"
                         role="form"
-                        th:action="@{/register/save}"
+                        th:action="@{saveUser(page=${page},keyword=${keyword})}"
                         th:object="${user}"
                 >
+
+                    <div class="form-group mb-3">
+                        <input
+                                class="form-control"
+                                id="idUser"
+                                name="idUser"
+                                th:field="*{id}"
+                                type="hidden"
+                        />
+                    </div>
+
                     <div class="form-group mb-3">
                         <label class="form-label">First Name</label>
                         <input
@@ -89,21 +100,18 @@
                     </div>
 
                     <div class="form-group mb-3">
-                        <label class="form-label">Password</label>
                         <input
                                 class="form-control"
                                 id="password"
                                 name="password"
-                                placeholder="Enter password"
                                 th:field="*{password}"
-                                type="password"
+                                type="hidden"
                         />
-                        <p th:errors = "*{password}" class="text-danger"
-                           th:if="${#fields.hasErrors('password')}"></p>
                     </div>
+
                     <div class="form-group">
-                        <button class="btn btn-primary" type="submit">Créer votre compte</button>
-                        <span>Vous avez déja un compte? <a th:href="@{/login}">Connectez-vous dès maintenant</a></span>
+                        <button class="btn btn-primary" type="submit">Modifier </button>
+                        <a th:href="@{'/users?page=' + ${page} + '&keyword=' + ${keyword}}" class="btn btn-secondary">Cancel</a>
                     </div>
                 </form>
             </div>

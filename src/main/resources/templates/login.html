@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
->
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="template1">
 <head>
     <meta charset="UTF-8">
     <title>Registration and Login System</title>
@@ -11,21 +12,7 @@
           crossorigin="anonymous">
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" th:href="@{/index}">Registration and Login System</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-<!--        <div class="collapse navbar-collapse" id="navbarSupportedContent">-->
-<!--            <ul class="navbar-nav me-auto mb-2 mb-lg-0">-->
-<!--                <li class="nav-item">-->
-<!--                    <a class="nav-link active" aria-current="page" th:href="@{/register}">Register</a>-->
-<!--                </li>-->
-<!--            </ul>-->
-<!--        </div>-->
-    </div>
-</nav>
+<div layout:fragment="content1">
 <br /><br />
 <div class="container">
     <div class="row">
@@ -71,9 +58,9 @@
                             />
                         </div>
                         <div class="form-group mb-3">
-                            <button type="submit" class="btn btn-primary" >Submit</button>
-                            <span> Not registered ?
-                                <a th:href="@{/register}">Register/Signup here</a>
+                            <button type="submit" class="btn btn-primary" >Se connecter</button>
+                            <span> Vous n'avez pas encore de compte ?
+                                <a th:href="@{/register}">Créez votre compte</a>
                             </span>
                         </div>
                     </form>
@@ -81,6 +68,7 @@
             </div>
         </div>
     </div>
+</div>
 </div>
 </body>
 </html>
