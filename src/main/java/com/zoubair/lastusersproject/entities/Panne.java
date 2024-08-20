@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Setter
 @Getter
@@ -21,8 +21,8 @@ public class Panne {
     private Long id;
 
     private String description;
-    private LocalDateTime dateDeclaration;
-    private LocalDateTime dateResolution;
+    private LocalDate dateDeclaration;
+    private LocalDate dateResolution;
     private String status;
 
     @ManyToOne

@@ -35,10 +35,16 @@ public class User {
     @Column(nullable=false)
     private String adress;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name="users_roles",
             joinColumns={@JoinColumn(name="USER_ID", referencedColumnName="ID")},
             inverseJoinColumns={@JoinColumn(name="ROLE_ID", referencedColumnName="ID")})
     private List<Role> roles = new ArrayList<>();
+
+    @OneToMany(mappedBy = "declaredBy", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Panne> pannesDeclaredBy;
+
+    @OneToMany(mappedBy = "assignedTo", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Panne> pannesAssignedTo;
 }

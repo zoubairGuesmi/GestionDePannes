@@ -104,6 +104,48 @@ public class AuthController {
         return "users";
     }
 
+    @GetMapping("/pannes-historique")
+    public String getListPannes(Model model,
+                                @RequestParam(name = "page", defaultValue = "0") int page,
+                                @RequestParam(name = "size",defaultValue = "2") int size,
+                                @RequestParam(name = "keyword",defaultValue = "") String keyword){
+        Page<Panne> pannes = panneService.findAllPanneForClient(keyword, getUsername(), PageRequest.of(page,size));
+        model.addAttribute("pannes", pannes.getContent());
+        model.addAttribute("pages", new int [pannes.getTotalPages()]);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("keyword",keyword);
+        model.addAttribute("username", getUsername());
+        model.addAttribute("isLoginPage", true);
+        model.addAttribute("roles", getAuthenticationAuthorities());
+        return "HistoriquepannesClient";
+    }
+
+    @GetMapping("/pannes-technicien")
+    public String getListPannesTechnicien(Model model,
+                                @RequestParam(name = "page", defaultValue = "0") int page,
+                                @RequestParam(name = "size",defaultValue = "2") int size,
+                                @RequestParam(name = "keyword",defaultValue = "") String keyword){
+        Page<Panne> pannes = panneService.findAllPanneForTechnicien(keyword, getUsername(), PageRequest.of(page,size));
+        model.addAttribute("pannes", pannes.getContent());
+        model.addAttribute("pages", new int [pannes.getTotalPages()]);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("keyword",keyword);
+        model.addAttribute("username", getUsername());
+        model.addAttribute("isLoginPage", true);
+        model.addAttribute("roles", getAuthenticationAuthorities());
+        return "pannesTechnicien";
+    }
+
+    @PostMapping("/assignPanne")
+    public String assignPanne(@RequestParam Long panneId, @RequestParam Long technicienId) {
+        Panne panne = panneService.findPanneById(panneId);
+        User technicien = userService.findUserById(technicienId);
+        panne.setAssignedTo(technicien);
+        panne.setStatus("ASSIGNED");
+        panneService.savePanne(panne);
+        return "redirect:/pannes";
+    }
+
     // handler method to handle login request
     @GetMapping("/login")
     public String login(Model model){
@@ -148,7 +190,17 @@ public class AuthController {
     }
 
     @GetMapping("/pannes")
-    public String getListPannes(Model model){
+    public String getHistoriquePannesClient(Model model,
+                                @RequestParam(name = "page", defaultValue = "0") int page,
+                                @RequestParam(name = "size",defaultValue = "2") int size,
+                                @RequestParam(name = "keyword",defaultValue = "") String keyword){
+        Page<Panne> pannes = panneService.findAllPanne(keyword, PageRequest.of(page,size));
+        List<User> techniciens = userService.getAllTechniciens();
+        model.addAttribute("pannes", pannes.getContent());
+        model.addAttribute("techniciens", techniciens);
+        model.addAttribute("pages", new int [pannes.getTotalPages()]);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("keyword",keyword);
         model.addAttribute("username", getUsername());
         model.addAttribute("isLoginPage", true);
         model.addAttribute("roles", getAuthenticationAuthorities());
@@ -181,10 +233,95 @@ public class AuthController {
                                @RequestParam(defaultValue = "") String keyword){
         if (bindingResult.hasErrors())
             return "editUser";
+        User user1 = userService.findUserById(user.getId());
+        user.setRoles(user1.getRoles());
         userService.save(user);
         model.addAttribute("user", user);
         return "redirect:/users?page="+page+"&keyword="+keyword;
     }
+
+    // handler method to handle user registration form request
+    @GetMapping("/technicien")
+    public String showCreateTechnicienForm(Model model){
+        // create model object to store form data
+        UserDto user = new UserDto();
+        model.addAttribute("user", user);
+        model.addAttribute("isLoginPage", true);
+        model.addAttribute("roles", getAuthenticationAuthorities());
+        return "technicien";
+    }
+
+    // handler method to handle user registration form submit request
+    @PostMapping("/technicien/save")
+    public String createTechnicien(@Valid @ModelAttribute("user") UserDto userDto,
+                               BindingResult result,
+                               Model model){
+        User existingUser = userService.findUserByEmail(userDto.getEmail());
+
+        if(existingUser != null && existingUser.getEmail() != null && !existingUser.getEmail().isEmpty()){
+            result.rejectValue("email", null,
+                    "There is already an account registered with the same email");
+        }
+
+        if(result.hasErrors()){
+            model.addAttribute("user", userDto);
+            return "/technicien";
+        }
+
+        userService.saveTechnicien(userDto);
+        return "redirect:/technicien?success";
+    }
+
+    @GetMapping("/techniciens")
+    public String techniciens(Model model,
+                        @RequestParam(name = "page", defaultValue = "0") int page,
+                        @RequestParam(name = "size",defaultValue = "2") int size,
+                        @RequestParam(name = "keyword",defaultValue = "") String keyword){
+        Page<User> techniciens = userService.findAllTechniciens(keyword, PageRequest.of(page,size));
+//        List<UserDto> users = userService.findAllUsers();
+        model.addAttribute("techniciens", techniciens.getContent());
+        model.addAttribute("pages", new int [techniciens.getTotalPages()]);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("keyword",keyword);
+        model.addAttribute("username", getUsername());
+        model.addAttribute("isLoginPage", true);
+        model.addAttribute("roles", getAuthenticationAuthorities());
+        return "techniciens";
+    }
+
+    @GetMapping("/deleteTechnicien")
+    public String deleteTechnicien(Long id, String keyword, int page){
+        userService.deleteUser(id);
+        return "redirect:/techniciens?page="+page+"&keyword="+keyword;
+    }
+
+    @GetMapping("/editTechnicien")
+    public String editTechnicien(Model model, Long id, String keyword, int page){
+        User technicien = userService.findUserById(id);
+        if(technicien == null)
+            throw new RuntimeException("user not found");
+        model.addAttribute("technicien", technicien);
+        model.addAttribute("keyword",keyword);
+        model.addAttribute("page",page);
+        model.addAttribute("username", getUsername());
+        model.addAttribute("isLoginPage", true);
+        model.addAttribute("roles", getAuthenticationAuthorities());
+        return "editTechnicien";
+    }
+
+    @PostMapping("/saveTechnicien")
+    public String saveTechnicien(Model model,@Valid User technicien, BindingResult bindingResult,
+                           @RequestParam(defaultValue = "0") int page,
+                           @RequestParam(defaultValue = "") String keyword){
+        if (bindingResult.hasErrors())
+            return "editTechnicien";
+        User technicien1 = userService.findUserById(technicien.getId());
+        technicien.setRoles(technicien1.getRoles());
+        userService.save(technicien);
+        model.addAttribute("technicien", technicien);
+        return "redirect:/techniciens?page="+page+"&keyword="+keyword;
+    }
+
 
     private String getUsername(){
         Authentication authentication = getAuthentication();

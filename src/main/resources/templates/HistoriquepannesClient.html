@@ -6,7 +6,7 @@
       layout:decorate="template1">
 <head>
     <meta charset="UTF-8">
-    <title>Registration and Login System</title>
+    <title>Gestion des pannes</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
           rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
@@ -16,9 +16,9 @@
 <div layout:fragment="content1">
     <div class="container mt-2">
         <div class="card">
-            <div class="card-header"> Liste des users</div>
+            <div class="card-header"> Liste des Pannes</div>
             <div class="card-body">
-                <form method="get" th:action="@{users}">
+                <form method="get" th:action="@{pannes-historique}">
                     <label>Key word</label>
                     <input type="text" name="keyword" th:value="${keyword}">
                     <button type="submit" class="btn btn-primary">Chercher</button>
@@ -26,28 +26,18 @@
                 <table class="table">
                     <thead>
                     <tr>
-                        <th>Nom</th>
-                        <th>Prénom</th>
-                        <th>Email</th>
+                        <th>description</th>
+                        <th>date Declaration</th>
+                        <th>date Resolution</th>
+                        <th>status</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="p:${users}">
-                        <td th:text="${p.firstName}"></td>
-                        <td th:text="${p.lastName}"></td>
-                        <td th:text="${p.email}"></td>
-                        <td>
-                            <a onclick="return confirm('Are you sure')" class="btn btn-danger"
-                               th:href="@{deleteUser(id=${p.id}, keyword=${keyword}, page=${currentPage})}">
-                                Supprimer
-                            </a>
-                        </td>
-                        <td>
-                            <a class="btn btn-success"
-                               th:href="@{editUser(id=${p.id}, keyword=${keyword}, page=${currentPage})}">
-                                Modifier
-                            </a>
-                        </td>
+                    <tr th:each="p:${pannes}">
+                        <td th:text="${p.description}"></td>
+                        <td th:text="${p.dateDeclaration}"></td>
+                        <td th:text="${p.dateResolution}"></td>
+                        <td th:text="${p.status}"></td>
                     </tr>
                     </tbody>
                 </table>
@@ -56,7 +46,7 @@
                         <a th:class="${staus.index==currentPage?
                  'btn btn-primary ms-1':'btn btn-outline-primary ms-1'}"
                            th:text="${staus.index}"
-                           th:href="@{users(page=${staus.index}, keyword=${keyword})}">
+                           th:href="@{pannes-historique(page=${staus.index}, keyword=${keyword})}">
                         </a>
                     </li>
                 </ul>

@@ -41,6 +41,7 @@ public class SpringSecurity {
 //                                .requestMatchers("/index").permitAll()
                                 .requestMatchers("/users").hasRole("ADMIN")
                                 .requestMatchers("/pannes").hasRole("ADMIN")
+                                .requestMatchers("/technicien").hasRole("ADMIN")
                                 .requestMatchers("/panne").hasRole("USER")
                                 .anyRequest().authenticated()
                 ).formLogin(
@@ -85,12 +86,13 @@ public class SpringSecurity {
 
             Collection<SimpleGrantedAuthority> authorities = (Collection<SimpleGrantedAuthority>) authentication.getAuthorities();
             boolean isUser = authorities.stream()
-                    .anyMatch(authority -> authority.getAuthority().equals("ROLE_USER"));
+                    .anyMatch(authority -> authority.getAuthority().equals("ROLE_USER")
+                            || authority.getAuthority().equals("ROLE_TECHNICIEN"));
 
             if (isUser) {
                 response.sendRedirect("/index");
             } else {
-                response.sendRedirect("/users");
+                response.sendRedirect("/pannes");
             }
         }
     }

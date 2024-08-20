@@ -14,7 +14,7 @@
             z-index: 1;
             top: 0;
             left: 0;
-            background-color: #111;
+            background-color: #0083fd;
             overflow-x: hidden;
             transition: 0.5s;
             padding-top: 60px;
@@ -49,13 +49,8 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg" style="background-color: #0083fd;">
     <div class="container-fluid">
-        <!--        <a class="navbar-brand" th:href="@{/index}">Registration and Login System</a>-->
-
-        <!--        <a class="navbar-brand" th:if="${username != null}">-->
-        <!--            <span sec:authentication="name"></span>-->
-        <!--        </a>-->
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent1" aria-controls="navbarSupportedContent1" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -63,26 +58,20 @@
         <span style="font-size:30px;cursor:pointer;color: #f1f1f1" onclick="openNav()">&#9776;</span>
         <div class="collapse navbar-collapse" id="navbarSupportedContent1">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-<!--                <li class="nav-item">-->
-<!--                    <a class="navbar-brand" th:if="${username != null}">-->
-<!--                        <span sec:authentication="name"></span>-->
-<!--                    </a>-->
-<!--                </li>-->
+
                 <li class="nav-item">
-                    <a th:if="${username == null} and ${isLoginPage}" class="nav-link active" aria-current="page" th:href="@{/login}">Se connecter</a>
-<!--                    <a th:if="${username != null}" class="navbar-brand" aria-current="page" th:href="@{/logout}">Logout</a>-->
-<!--                    <a th:if="${username != null}" class="navbar-brand" aria-current="page" th:href="@{/profile}">Profil</a>-->
+                    <a th:if="${username == null} and ${isLoginPage}" class="nav-link active" style="color: #f1f1f1;" aria-current="page" th:href="@{/login}">Se connecter</a>
                 </li>
                 <li class="nav-item">
-                    <a th:if="${username == null} and ${isLoginPage}" class="nav-link active" aria-current="page" th:href="@{/register}">Créer mon compte</a>
+                    <a th:if="${username == null} and ${isLoginPage}" class="nav-link active" style="color: #f1f1f1;" aria-current="page" th:href="@{/register}">Créer mon compte</a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" th:if="${username != null}">
+                    <a class="nav-link dropdown-toggle" style="color: #f1f1f1;" href="#" role="button" data-bs-toggle="dropdown" th:if="${username != null}">
                         <span sec:authentication="name"></span>
                     </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" th:href="@{/logout}">Logout</a></li>
-                        <li><a class="dropdown-item" th:href="@{/profile}">Profile </a></li>
+                    <ul class="dropdown-menu" style="background-color: #0083fd;">
+                        <li><a class="dropdown-item" style="color: #f1f1f1;" th:href="@{/logout}">Logout</a></li>
+                        <li><a class="dropdown-item" style="color: #f1f1f1;" th:href="@{/profile}">Profile </a></li>
                     </ul>
                 </li>
             </ul>
@@ -96,7 +85,11 @@
     <a th:href="@{/index}">Home</a>
     <a th:href="@{/astuce}">Astuces</a>
     <a th:if="${username != null} and ${roles.contains('ROLE_USER')}" th:href="@{/panne}">Déclaration des Pannes</a>
+    <a th:if="${username != null} and ${roles.contains('ROLE_USER')}" th:href="@{/pannes-historique}">Historique des Pannes</a>
+    <a th:href="@{/users}" th:if="${username != null} and ${roles.contains('ROLE_ADMIN')}">Gestion des Utilisateurs</a>
     <a th:href="@{/pannes}" th:if="${username != null} and ${roles.contains('ROLE_ADMIN')}">Gestion des Pannes</a>
+    <a th:href="@{/techniciens}" th:if="${username != null} and ${roles.contains('ROLE_ADMIN')}">Gestion des techniciens</a>
+    <a th:if="${username != null} and ${roles.contains('ROLE_TECHNICIEN')}" th:href="@{/pannes-technicien}">Liste des Pannes</a>
 </div>
 
 <script>

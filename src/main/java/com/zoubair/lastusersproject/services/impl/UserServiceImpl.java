@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -42,10 +43,25 @@ public class UserServiceImpl implements UserService {
         // encrypt the password using spring security
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
 
-        Role role = roleRepository.findByName("ROLE_USER");
-        if(role == null){
-            role = checkRoleExist();
-        }
+        Role role = checkRoleExist("ROLE_USER");
+//        if(role == null){
+//            role = checkRoleExist("ROLE_USER");
+//        }
+        user.setRoles(Arrays.asList(role));
+        userRepository.save(user);
+    }
+
+    @Override
+    public void saveTechnicien(UserDto userDto) {
+        User user = new User();
+        user.setFirstName(userDto.getFirstName());
+        user.setLastName(userDto.getLastName());
+        user.setAdress(userDto.getAdress());
+        user.setEmail(userDto.getEmail());
+        // encrypt the password using spring security
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+
+        Role role = checkRoleExist("ROLE_TECHNICIEN");
         user.setRoles(Arrays.asList(role));
         userRepository.save(user);
     }
@@ -75,6 +91,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Page<User> findAllTechniciens(String keyword, Pageable pageable) {
+        return userRepository.findAllTechniciens(keyword, pageable);
+    }
+
+    @Override
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
     }
@@ -82,6 +103,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findUserById(Long id) {
         return userRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public List<User> getAllTechniciens() {
+        return userRepository.getAllTechniciens();
     }
 
     @Override
@@ -132,9 +158,17 @@ public class UserServiceImpl implements UserService {
         return userDto;
     }
 
-    private Role checkRoleExist(){
-        Role role = new Role();
-        role.setName("ROLE_USER");
-        return roleRepository.save(role);
+    private Role checkRoleExist(String role){
+        Role role1 = roleRepository.findByName(role);
+        if(role1 == null) {
+            if (role.equals("ROLE_TECHNICIEN")) {
+                role1.setName("ROLE_TECHNICIEN");
+            } else if (role.equals("ROLE_USER")) {
+                role1.setName("ROLE_USER");
+            }
+            return roleRepository.save(Objects.requireNonNull(role1));
+        }
+        return null;
+
     }
 }
