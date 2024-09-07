@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -90,7 +92,7 @@ public class AuthController {
     @GetMapping("/users")
     public String users(Model model,
                         @RequestParam(name = "page", defaultValue = "0") int page,
-                        @RequestParam(name = "size",defaultValue = "2") int size,
+                        @RequestParam(name = "size",defaultValue = "4") int size,
                         @RequestParam(name = "keyword",defaultValue = "") String keyword){
         Page<User> users = userService.findAllUsers(keyword, PageRequest.of(page,size));
 //        List<UserDto> users = userService.findAllUsers();
@@ -107,7 +109,7 @@ public class AuthController {
     @GetMapping("/pannes-historique")
     public String getListPannes(Model model,
                                 @RequestParam(name = "page", defaultValue = "0") int page,
-                                @RequestParam(name = "size",defaultValue = "2") int size,
+                                @RequestParam(name = "size",defaultValue = "4") int size,
                                 @RequestParam(name = "keyword",defaultValue = "") String keyword){
         Page<Panne> pannes = panneService.findAllPanneForClient(keyword, getUsername(), PageRequest.of(page,size));
         model.addAttribute("pannes", pannes.getContent());
@@ -123,7 +125,7 @@ public class AuthController {
     @GetMapping("/pannes-technicien")
     public String getListPannesTechnicien(Model model,
                                 @RequestParam(name = "page", defaultValue = "0") int page,
-                                @RequestParam(name = "size",defaultValue = "2") int size,
+                                @RequestParam(name = "size",defaultValue = "4") int size,
                                 @RequestParam(name = "keyword",defaultValue = "") String keyword){
         Page<Panne> pannes = panneService.findAllPanneForTechnicien(keyword, getUsername(), PageRequest.of(page,size));
         model.addAttribute("pannes", pannes.getContent());
@@ -133,6 +135,8 @@ public class AuthController {
         model.addAttribute("username", getUsername());
         model.addAttribute("isLoginPage", true);
         model.addAttribute("roles", getAuthenticationAuthorities());
+        List<String> statuts = Arrays.asList("SIGNALE", "ASSIGNE", "EN COURS", "RESOLU");
+        model.addAttribute("statuts",statuts);
         return "pannesTechnicien";
     }
 
@@ -141,7 +145,7 @@ public class AuthController {
         Panne panne = panneService.findPanneById(panneId);
         User technicien = userService.findUserById(technicienId);
         panne.setAssignedTo(technicien);
-        panne.setStatus("ASSIGNED");
+        panne.setStatus("ASSIGNE");
         panneService.savePanne(panne);
         return "redirect:/pannes";
     }
@@ -159,6 +163,7 @@ public class AuthController {
         model.addAttribute("currentUser", currentUser);
         model.addAttribute("username", getUsername());
         model.addAttribute("isLoginPage", true);
+
         model.addAttribute("roles", getAuthenticationAuthorities());
         return "profile";
     }
@@ -192,7 +197,7 @@ public class AuthController {
     @GetMapping("/pannes")
     public String getHistoriquePannesClient(Model model,
                                 @RequestParam(name = "page", defaultValue = "0") int page,
-                                @RequestParam(name = "size",defaultValue = "2") int size,
+                                @RequestParam(name = "size",defaultValue = "4") int size,
                                 @RequestParam(name = "keyword",defaultValue = "") String keyword){
         Page<Panne> pannes = panneService.findAllPanne(keyword, PageRequest.of(page,size));
         List<User> techniciens = userService.getAllTechniciens();
@@ -275,10 +280,9 @@ public class AuthController {
     @GetMapping("/techniciens")
     public String techniciens(Model model,
                         @RequestParam(name = "page", defaultValue = "0") int page,
-                        @RequestParam(name = "size",defaultValue = "2") int size,
+                        @RequestParam(name = "size",defaultValue = "4") int size,
                         @RequestParam(name = "keyword",defaultValue = "") String keyword){
         Page<User> techniciens = userService.findAllTechniciens(keyword, PageRequest.of(page,size));
-//        List<UserDto> users = userService.findAllUsers();
         model.addAttribute("techniciens", techniciens.getContent());
         model.addAttribute("pages", new int [techniciens.getTotalPages()]);
         model.addAttribute("currentPage", page);
@@ -320,6 +324,19 @@ public class AuthController {
         userService.save(technicien);
         model.addAttribute("technicien", technicien);
         return "redirect:/techniciens?page="+page+"&keyword="+keyword;
+    }
+
+    @PostMapping("/updatePanne")
+    public String updatePanne(@RequestParam Long panneId, @RequestParam String commentaire,
+                              @RequestParam("status") String status, Model model) {
+        Panne panne = panneService.findPanneById(panneId);
+        panne.setCommentaire(commentaire);
+        panne.setStatus(status);
+        if ("RESOLU".equals(panne.getStatus())){
+            panne.setDateResolution(LocalDate.now());
+        }
+        panneService.savePanne(panne);
+        return "redirect:/pannes-technicien";
     }
 
 

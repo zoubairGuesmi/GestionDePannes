@@ -24,6 +24,7 @@ public class Panne {
     private LocalDate dateDeclaration;
     private LocalDate dateResolution;
     private String status;
+    private String commentaire;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

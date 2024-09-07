@@ -21,7 +21,7 @@ public class PanneServiceImpl implements PanneService {
     @Override
     public void createPanne(Panne panne) {
         panne.setDateDeclaration(LocalDate.now());
-        panne.setStatus("CREATED");
+        panne.setStatus("SIGNALE");
         panne.setDeclaredBy(userService.getCurrentUser());
         panneRepository.save(panne);
     }

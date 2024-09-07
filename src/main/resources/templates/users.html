@@ -16,10 +16,9 @@
 <div layout:fragment="content1">
     <div class="container mt-2">
         <div class="card">
-            <div class="card-header"> Liste des users</div>
+            <div class="card-header"> Liste des comptes</div>
             <div class="card-body">
                 <form method="get" th:action="@{users}">
-                    <label>Key word</label>
                     <input type="text" name="keyword" th:value="${keyword}">
                     <button type="submit" class="btn btn-primary">Chercher</button>
                 </form>
@@ -29,6 +28,7 @@
                         <th>Nom</th>
                         <th>Prénom</th>
                         <th>Email</th>
+                        <th>Adresse</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -36,6 +36,7 @@
                         <td th:text="${p.firstName}"></td>
                         <td th:text="${p.lastName}"></td>
                         <td th:text="${p.email}"></td>
+                        <td th:text="${p.adress}"></td>
                         <td>
                             <a onclick="return confirm('Are you sure')" class="btn btn-danger"
                                th:href="@{deleteUser(id=${p.id}, keyword=${keyword}, page=${currentPage})}">

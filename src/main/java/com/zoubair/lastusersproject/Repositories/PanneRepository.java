@@ -29,6 +29,7 @@ public interface PanneRepository extends JpaRepository<Panne, Long> {
 
     @Query("SELECT p FROM Panne p LEFT JOIN p.assignedTo t WHERE " +
             "LOWER(p.description) LIKE LOWER(CONCAT('%', :kw, '%')) " +
+            "AND LOWER(p.status) LIKE LOWER(CONCAT('%', :kw, '%')) "+
             "AND LOWER(t.email) = LOWER(:email)")
     Page<Panne> findAllPannesForTechnicien(@Param("kw") String kw, @Param("email") String email, Pageable pageable);
 
