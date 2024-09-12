@@ -1,18 +1,16 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/pannesApp1
-    username: username
-    password: password
-    driver-class-name: org.postgresql.Driver
+    url: jdbc:mysql://localhost:3306/gestionPannes?useSSL=false&serverTimezone=UTC
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: false
     properties:
       hibernate:
-        format_sql: true
-    database: postgresql
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
+        dialect: org.hibernate.dialect.MySQL8Dialect
   thymeleaf:
     enabled: true
     check-template-location: true
