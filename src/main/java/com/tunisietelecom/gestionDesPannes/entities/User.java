@@ -1,4 +1,4 @@
-package com.zoubair.lastusersproject.entities;
+package com.tunisietelecom.gestionDesPannes.entities;
 
 import jakarta.persistence.*;
 import lombok.*;

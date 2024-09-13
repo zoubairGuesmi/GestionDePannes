@@ -1,8 +1,8 @@
-package com.zoubair.lastusersproject.security;
+package com.tunisietelecom.gestionDesPannes.security;
 
-import com.zoubair.lastusersproject.Repositories.UserRepository;
-import com.zoubair.lastusersproject.entities.Role;
-import com.zoubair.lastusersproject.entities.User;
+import com.tunisietelecom.gestionDesPannes.Repositories.UserRepository;
+import com.tunisietelecom.gestionDesPannes.entities.Role;
+import com.tunisietelecom.gestionDesPannes.entities.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

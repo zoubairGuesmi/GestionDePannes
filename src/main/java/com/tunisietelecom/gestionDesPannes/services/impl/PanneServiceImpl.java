@@ -1,9 +1,9 @@
-package com.zoubair.lastusersproject.services.impl;
+package com.tunisietelecom.gestionDesPannes.services.impl;
 
-import com.zoubair.lastusersproject.Repositories.PanneRepository;
-import com.zoubair.lastusersproject.entities.Panne;
-import com.zoubair.lastusersproject.services.PanneService;
-import com.zoubair.lastusersproject.services.UserService;
+import com.tunisietelecom.gestionDesPannes.Repositories.PanneRepository;
+import com.tunisietelecom.gestionDesPannes.entities.Panne;
+import com.tunisietelecom.gestionDesPannes.services.PanneService;
+import com.tunisietelecom.gestionDesPannes.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

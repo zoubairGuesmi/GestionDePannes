@@ -1,10 +1,10 @@
-package com.zoubair.lastusersproject;
+package com.tunisietelecom.gestionDesPannes;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class LastUsersProjectApplicationTests {
+class GestionDesPannesProjectApplicationTests {
 
     @Test
     void contextLoads() {

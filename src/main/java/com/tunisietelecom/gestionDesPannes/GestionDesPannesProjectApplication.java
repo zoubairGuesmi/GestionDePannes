@@ -1,13 +1,13 @@
-package com.zoubair.lastusersproject;
+package com.tunisietelecom.gestionDesPannes;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class LastUsersProjectApplication {
+public class GestionDesPannesProjectApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(LastUsersProjectApplication.class, args);
+        SpringApplication.run(GestionDesPannesProjectApplication.class, args);
     }
 
 }

@@ -1,10 +1,10 @@
-package com.zoubair.lastusersproject.Controller;
+package com.tunisietelecom.gestionDesPannes.Controller;
 
-import com.zoubair.lastusersproject.dto.UserDto;
-import com.zoubair.lastusersproject.entities.Panne;
-import com.zoubair.lastusersproject.entities.User;
-import com.zoubair.lastusersproject.services.PanneService;
-import com.zoubair.lastusersproject.services.impl.UserServiceImpl;
+import com.tunisietelecom.gestionDesPannes.dto.UserDto;
+import com.tunisietelecom.gestionDesPannes.entities.Panne;
+import com.tunisietelecom.gestionDesPannes.entities.User;
+import com.tunisietelecom.gestionDesPannes.services.PanneService;
+import com.tunisietelecom.gestionDesPannes.services.impl.UserServiceImpl;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;

@@ -1,7 +1,7 @@
-package com.zoubair.lastusersproject.services;
+package com.tunisietelecom.gestionDesPannes.services;
 
-import com.zoubair.lastusersproject.dto.UserDto;
-import com.zoubair.lastusersproject.entities.User;
+import com.tunisietelecom.gestionDesPannes.dto.UserDto;
+import com.tunisietelecom.gestionDesPannes.entities.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

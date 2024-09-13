@@ -1,7 +1,6 @@
-package com.zoubair.lastusersproject.Repositories;
+package com.tunisietelecom.gestionDesPannes.Repositories;
 
-import com.zoubair.lastusersproject.entities.Role;
-import com.zoubair.lastusersproject.entities.User;
+import com.tunisietelecom.gestionDesPannes.entities.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface RoleRepository extends JpaRepository<Role, Long> {

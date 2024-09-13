@@ -1,18 +1,17 @@
-package com.zoubair.lastusersproject.services.impl;
+package com.tunisietelecom.gestionDesPannes.services.impl;
 
-import com.zoubair.lastusersproject.Repositories.RoleRepository;
-import com.zoubair.lastusersproject.Repositories.UserRepository;
-import com.zoubair.lastusersproject.dto.UserDto;
-import com.zoubair.lastusersproject.entities.Role;
-import com.zoubair.lastusersproject.entities.User;
-import com.zoubair.lastusersproject.services.UserService;
+import com.tunisietelecom.gestionDesPannes.Repositories.RoleRepository;
+import com.tunisietelecom.gestionDesPannes.Repositories.UserRepository;
+import com.tunisietelecom.gestionDesPannes.dto.UserDto;
+import com.tunisietelecom.gestionDesPannes.entities.Role;
+import com.tunisietelecom.gestionDesPannes.entities.User;
+import com.tunisietelecom.gestionDesPannes.services.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.List;

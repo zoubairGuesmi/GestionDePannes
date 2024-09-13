@@ -1,6 +1,6 @@
-package com.zoubair.lastusersproject.services;
+package com.tunisietelecom.gestionDesPannes.services;
 
-import com.zoubair.lastusersproject.entities.Panne;
+import com.tunisietelecom.gestionDesPannes.entities.Panne;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

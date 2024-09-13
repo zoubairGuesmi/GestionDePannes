@@ -1,6 +1,6 @@
-package com.zoubair.lastusersproject.Repositories;
+package com.tunisietelecom.gestionDesPannes.Repositories;
 
-import com.zoubair.lastusersproject.entities.User;
+import com.tunisietelecom.gestionDesPannes.entities.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

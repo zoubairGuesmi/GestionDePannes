@@ -1,7 +1,7 @@
-package com.zoubair.lastusersproject.security;
+package com.tunisietelecom.gestionDesPannes.security;
 
 
-import com.zoubair.lastusersproject.entities.User;
+import com.tunisietelecom.gestionDesPannes.entities.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
