@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -239,8 +240,11 @@ public class AuthController {
         if (bindingResult.hasErrors())
             return "editUser";
         User user1 = userService.findUserById(user.getId());
-        user.setRoles(user1.getRoles());
-        userService.save(user);
+        user1.setAdress(user.getAdress());
+        user1.setEmail(user.getEmail());
+        user1.setFirstName(user.getFirstName());
+        user1.setLastName(user.getLastName());
+        userService.save(user1);
         model.addAttribute("user", user);
         return "redirect:/users?page="+page+"&keyword="+keyword;
     }
